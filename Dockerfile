@@ -1,5 +1,7 @@
 FROM ubuntu:latest
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update && \
       apt-get install -y --allow-downgrades automake make gcc nano \
       docbook-utils git pkg-config libtool libc6=2.31-0ubuntu9 \
