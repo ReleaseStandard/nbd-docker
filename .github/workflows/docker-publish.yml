@@ -36,9 +36,6 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    # Ensure test job passes before pushing image.
-    needs: test
-
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
@@ -49,9 +46,8 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
-      # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "$CI_JOB_TOKEN $CI_REGISTRY" && docker login https://ghcr.io -u "gitlab-ci-token" -p $CI_JOB_TOKEN $CI_REGISTRY
-        
+        run: echo "$PAT" | docker login docker.pkg.github.com -u ReleaseStandard --password-stdin 
+
       - name: Push image to GitHub Container Registry
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
@@ -71,5 +67,9 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          # docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_ID docker.pkg.github.com/releasestandard/repository-name/$IMAGE_NAME:$VERSION
+
+          #docker push $IMAGE_ID:$VERSION
+          docker push docker.pkg.github.com/releasestandard/repository-name/$IMAGE_NAME:$VERSION
+          
