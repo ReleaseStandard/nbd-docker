@@ -52,8 +52,8 @@ jobs:
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: DOCKER_USERNAME="${{ github.actor }}" DOCKER_PASSWORD="${{ secrets.CR_PAT }}" docker login https://ghcr.io -u "gitlab-ci-token" -p $CI_JOB_TOKEN $CI_REGISTRY
-
+        run: echo "$CI_JOB_TOKEN $CI_REGISTRY" && docker login https://ghcr.io -u "gitlab-ci-token" -p $CI_JOB_TOKEN $CI_REGISTRY
+        
       - name: Push image to GitHub Container Registry
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
