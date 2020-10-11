@@ -16,4 +16,3 @@ docker run -ti --rm \
  -v "$(pwd)":/DATA/ -w /DATA \
  jeanjjgm/nbd bash
 ```
- 
