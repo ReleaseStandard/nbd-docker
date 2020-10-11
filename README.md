@@ -1,3 +1,15 @@
 # nbd-docker
 Docker image to compile [nbd project](https://github.com/NetworkBlockDevice/nbd).
 
+
+### Quick compilation
+docker run -ti --rm \
+ -v "$(pwd)":/DATA/ -w /DATA \
+ jeanjjgm/nbd bash -c './autogen.sh && ./configure && make'
+ 
+ 
+### Compile
+To get a shell in the compilation environment:
+docker run -ti --rm \
+ -v "$(pwd)":/DATA/ -w /DATA \
+ jeanjjgm/nbd bash
